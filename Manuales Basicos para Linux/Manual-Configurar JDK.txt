@@ -1,0 +1,32 @@
+		*** Manual Basico para configurar la version mas actual de JDK en GNU/Linux***
+				Creado por Daniel Gonzalez -- 16/Agosto/2021	
+
+	INSTRUCCIONES:
+	1) // Descargar jdk-X.X.X.deb de la pagina oficial de Oracle
+
+	2) //INSTALAR JDK-X.X.X.deb DESDE LA TERMINAL CON EL SIGUIENTE COMANDO:
+		sudo gdebi jdk-X.X.X.deb
+
+	3) //MODIFICAR LAS VARIABLES DE ENTORNO CON EL SIGUIENTE COMANDO:
+		sudo nano /etc/environment
+
+		3.1) // DENTRO DEL ARCHIVO ENVIRONMENT Y UTILIZANDO EL EDITOR NANO, AGREGAR LAS SIGUIENTES LINEAS 
+    			3.1.1) //NOTA: xxxx representa otras variables ya contenidas en el archivo, por lo que solo se agrega "usr/lib/jvm/jdk-XX.X.X/bin" a partir del
+			       ultimo ":", quedando de la siguiente forma:
+					path:"xxxx:usr/lib/jvm/jdk-XX.X.X/bin"
+
+			3.1.2) // AGREGAR EL SIGUIENTE TEXTO DENTRO DEL MISMO ARCHIVO  
+					JAVA_HOME="usr/lib/jvm/jdk-XX.X.X"
+
+	4) //INDICAR AL SISTEMA QUE QUEREMOS USAR LA VERSION MAS ACTUAL DE JAVA POR MEDIO DE LOS SIGUIENTES COMANDOS:
+		sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk-XX.X.X/bin/java" 0
+
+		sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk-XX.X.X/bin/javac" 0
+
+		sudo update-alternatives --set java /usr/lib/jvm/jdk-XX.X.X/bin/java
+	
+		sudo update-alternatives --set javac /usr/lib/jvm/jdk-XX.X.X/bin/javac
+
+	5) //VERIFICAR LISTA DE OPCIONES DE JAVA PARA COMPROBAR QUE SE UTILIZARA LA VERSION MAS ACTUAL CON LOS SIGUIENTES COMANDOS:
+		update-alternatives --list java
+		update-alternatives --list java
