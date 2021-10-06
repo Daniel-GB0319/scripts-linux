@@ -8,6 +8,7 @@ Estos Scripts fueron creados como proyectos escolares y tienen la funcion de fac
 Instrucciones de Uso:
 1) Desde la Terminal, dirijase hacia el directorio donde se encuentra el script que desea ejecutar.
 2) Una vez estando en el mismo directorio que el script, ejecute el siguiente comando para autorizar la ejecucion del mismo:
+
 ![image](https://user-images.githubusercontent.com/83619266/136155041-83fdcc67-b177-42d3-99e8-87879280f7b0.png)
 
 3) Por ultimo, para ejecutar el script se debe utilizar el siguiente comando dependiendo la situacion:
