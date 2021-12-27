@@ -1,0 +1,24 @@
+		*** Manual Basico para instalar la version mas actual de Python en GNU/Linux***
+				Creado por Daniel Gonzalez -- 22/Diciembre/2021	
+
+	INSTRUCCIONES:
+	1) // Descargar la version mas actual desde la pagina oficial de Python
+
+	2) //INSTALAR EL PAQUETE "zlib1g-dev" DESDE LA TERMINAL CON EL SIGUIENTE COMANDO:
+		"sudo apt install zlib1g-dev"
+
+	3) // INGRESAR DESDE LA TERMINAL AL DIRECTORIO DONDE SE HA DESCARGADO EL ARCHIVO "Python-X.X.X.tar.xz" DE PYTHON 
+	      Y DESCOMPRIMIR CON EL SIGUIENTE COMANDO (Sustituir las "X" por el numero de la version de Python a instalar):
+		 "tar xf Python-X.X.X.tar.xz"
+   
+	4) //INGRESAR A LA CARPETA RECIEN DESCOMPRIMIDA DESDE LA TERMINAL Y EJECUTAR LOS SIGUIENTES COMANDOS:
+		"./configure" 
+
+		"make" 
+
+		"make test"
+
+		"sudo make install"
+
+	5) //VERIFICAR QUE LA VERSION INSTALADA DE PYTHON ES LA MAS ACTUAL CON EL SIGUIENTE COMANDO:
+		"python3 --version" 
