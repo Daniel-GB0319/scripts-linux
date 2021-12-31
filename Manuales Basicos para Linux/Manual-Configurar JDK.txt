@@ -1,11 +1,11 @@
 		*** Manual Basico para configurar la version mas actual de JDK en GNU/Linux***
-				Creado por Daniel Gonzalez -- 16/Agosto/2021	
+				Creado por Daniel Gonzalez -- 31/Diciembre/2021	
 
 	INSTRUCCIONES:
 	1) // Descargar jdk-X.X.X.deb de la pagina oficial de Oracle
 
 	2) //INSTALAR JDK-X.X.X.deb DESDE LA TERMINAL CON EL SIGUIENTE COMANDO:
-		sudo gdebi jdk-X.X.X.deb
+		sudo dpkg -i jdk-X.X.X.deb
 
 	3) //MODIFICAR LAS VARIABLES DE ENTORNO CON EL SIGUIENTE COMANDO:
 		sudo nano /etc/environment
@@ -29,4 +29,4 @@
 
 	5) //VERIFICAR LISTA DE OPCIONES DE JAVA PARA COMPROBAR QUE SE UTILIZARA LA VERSION MAS ACTUAL CON LOS SIGUIENTES COMANDOS:
 		update-alternatives --list java
-		update-alternatives --list java
+		update-alternatives --list javac
