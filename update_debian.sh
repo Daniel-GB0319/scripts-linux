@@ -17,7 +17,7 @@ echo "3) sudo apt full-upgrade -y"
 echo "4) sudo apt autoclean -y"
 echo "5) sudo apt autoremove -y"
 echo ""
-echo "% Ingrese la contraseña para dar privilegios Root y espere a que el Script termine: %"
+echo "% Ingrese la contraseña y espere a que el Script finalice: %"
 echo ""
 sleep 2s
 sudo apt update
