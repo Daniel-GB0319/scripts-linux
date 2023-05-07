@@ -1,14 +1,13 @@
 #!/bin/bash
 
-# Corrección en palabras y terminos utilizados, ademas de agregar actualizacion para 
-# paquetes snap y flatpak en caso de ser aplicables. 04/Abril/2023
+# Ligera modificación en texto de mensajes. 07/Mayo/2023
 
 clear
 echo ""
 echo "*************************************************************"
 echo "** Script para Actualización y Limpieza de la Distribución **"
 echo "*          ****** Autor: Daniel González ******             *"
-echo "*                        Ver. 1.5                           *"
+echo "*                      Ver. 1.5.1                           *"
 echo "*************************************************************"
 echo ""
 echo "Comandos a ejecutar:"
@@ -49,7 +48,7 @@ echo ""
 flatpak update
 echo ""
 echo "#############################################################"
-echo "#              !!! Paquetes Actualizados !!!                #"
+echo "#       !!! Paquetes snap/flathub Actualizados !!!          #"
 echo "# % Se limpiarán archivos temporales para ahorrar espacio % #"
 echo "#############################################################"
 echo ""
