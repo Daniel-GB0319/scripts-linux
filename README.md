@@ -19,7 +19,7 @@ Este repositorio contiene una colección de scripts diseñados originalmente com
 ```
 sudo chmod +x ./script.sh
 ```
-3. Ejecuta el script utilizando el siguiente comando según la situación:
+3. Ejecuta el script utilizando el siguiente comando:
 ```
 sudo ./script.sh
 ```
