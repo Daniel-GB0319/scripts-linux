@@ -1,28 +1,25 @@
 # scripts-linux
-Creado por Daniel Gonzalez 
 
-06/Octubre/2021
+**Creado por:** Daniel Gonzalez  
+**Fecha de creación:** 06 de Octubre de 2021
 
-Estos Scripts fueron creados como proyectos escolares y tienen la funcion de facilitar las tareas referentes a la configuracion inicial (setup) y actualizacion de distintas distribuciones basadas en Debian. Cabe destacar que el Setup inicial instala una variedad de aplicaciones y herramientas recomendadas, por lo que esta pensada para ejecutarse solo cuando se trata de una distribucion nueva o recien instalada en la computadora. Por otra parte, el script "update" actualiza la distribucion y las paqueterias instaladas, ademas de limpiar los archivos o paqueterias innecesarias, por lo que esta pensada para ejecutarse con frecuencia como forma de mantenimiento a la distribucion.  
+## Descripción
+Este repositorio contiene una colección de scripts diseñados originalmente como proyectos escolares. Los scripts tienen la finalidad de simplificar las tareas relacionadas con la configuración inicial (setup) y la actualización de diversas distribuciones basadas en Debian, Fedora y Arch.
 
-Instrucciones de Uso:
-1) Desde la Terminal, dirijase hacia el directorio donde se encuentra el script que desea ejecutar.
-2) Una vez estando en el mismo directorio que el script, ejecute el siguiente comando para autorizar la ejecucion del mismo:
+## Contenido
+1. [Scripts](#scripts)
+2. [Instrucciones de Uso](#instrucciones-de-uso)
+## Scripts
+- `setup_example.sh`: Realiza la configuración inicial del sistema, instalando aplicaciones y herramientas útiles.
+- `update_example.sh`: Actualiza el sistema y realiza limpieza de archivos innecesarios.
 
-![image](https://user-images.githubusercontent.com/83619266/136155041-83fdcc67-b177-42d3-99e8-87879280f7b0.png)
-
-3) Por ultimo, para ejecutar el script se debe utilizar el siguiente comando dependiendo la situacion:
- 
-3.1) Cuando la terminal se ubica en el mismo directorio que el script:
-
-![image](https://user-images.githubusercontent.com/83619266/136155244-e550ca44-f31c-48f7-9e9b-197136dca0d3.png) 
-
-3.2) Cuando la terminal se ubica en un directorio diferente al script, es necesario indicar la ruta donde se ubica el ejecutable. Ejemplo: 
-
-![image](https://user-images.githubusercontent.com/83619266/136155329-eabad4a2-eb1c-471e-9f81-f6e0ab95f51f.png)
-  
-
-
-
-              
- 
+## Instrucciones de Uso
+1. Abre la Terminal y navega hasta el directorio donde se encuentra el script que deseas ejecutar.
+2. Dale permisos de ejecución al script con el siguiente comando:
+```
+sudo chmod +x ./script.sh
+```
+3. Ejecuta el script utilizando el siguiente comando según la situación:
+```
+sudo ./script.sh
+```
