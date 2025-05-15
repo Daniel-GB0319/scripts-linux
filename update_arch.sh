@@ -3,8 +3,8 @@
 ######################################################################
 # Script de Actualización y Limpieza de Distribución (Arch Linux y derivados)
 # Autor: Daniel González 
-# Versión: 2.0
-# Fecha: 22 de Agosto de 2023
+# Versión: 1.2
+# Fecha: 14 de Mayo de 2025
 #
 # Este script automatiza tareas de actualización y limpieza en una
 # distribución de Linux basada en Arch Linux. Realiza la actualización de paquetes,
@@ -16,54 +16,62 @@
 # Requiere permisos de superusuario (root) para ejecutarse.
 ######################################################################
 
-# Verifica si el usuario tiene permisos de superusuario
+
+# Verifica si se ejecuta como superusuario
 if [ "$EUID" -ne 0 ]; then
     echo -e "\e[1;91mEste script debe ejecutarse como superusuario.\e[0m"
     exit 1
 fi
 
-# Función para ejecutar comandos y mostrar mensajes
-run_command() {
-    echo ""
-    echo -e "\e[1;32m###########################################"
-    echo "# $1"
-    echo -e "###########################################\e[0m"
-    echo ""
-    $2
-}
-
-# Limpiar pantalla
+# Limpia pantalla
 clear
 
-# Presentación inicial del programa 
-echo ""
-echo -e "\e[1;32m*************************************************************"
-echo "** Script para Actualización y Limpieza de la Distribución **"
-echo "*          ****** Autor: Daniel González ******             *"
-echo "*                        Ver. 1.1                           *"
-echo "*************************************************************\e[0m"
-echo ""
-echo -e "\e[1;93mComandos a ejecutar:\e[0m"
-echo -e "1) \e[93mActualizar paquetes (sudo pacman -Syu)\e[0m"
-echo -e "2) \e[93mActualizar paquetes Snap (sudo snap refresh)\e[0m"
-echo -e "3) \e[93mActualizar paquetes Flatpak (flatpak update)\e[0m (si es aplicable)"
-echo -e "4) \e[93mLimpiar caché con (sudo pacman -Sc)\e[0m"
-echo -e "5) \e[93mEliminar paquetes innecesarios (sudo pacman -Rns $(pacman -Qdtq))\e[0m"
-echo ""
-echo -e "% Ingrese la contraseña y espere a que el Script finalice: %\e[0m"
-echo ""
-sleep 2s
+# Fecha de ejecución
+FECHA=$(date "+%Y-%m-%d %H:%M:%S")
 
-# Ejecutación de comandos con sus respectivos mensajes
-run_command "1. Actualizando paquetes..." "sudo pacman -Syu"
-run_command "2. Actualizando paquetes Snap..." "sudo snap refresh"
-run_command "3. Actualizando paquetes Flatpak..." "flatpak update"
-run_command "4. Limpiando caché..." "sudo pacman -Sc"
-run_command "5. Eliminando paquetes innecesarios..." "sudo pacman -Rns $(pacman -Qdtq)"
+# Presentación
+echo -e "\n\e[1;32m*************************************************************"
+echo "** Script para Actualización y Limpieza de Arch/Manjaro   **"
+echo "*         Autor: Daniel González     -  Fecha: $FECHA         *"
+echo "*                        Versión 1.2                       *"
+echo -e "*************************************************************\e[0m\n"
 
-# Mensaje de finalización del programa
-echo ""
-echo -e "\e[1;32m*******************************************************"
-echo "**** Script de Actualización y Limpieza Finalizada ****"
-echo -e "*******************************************************\e[0m"
-echo ""
+# Función para mostrar título y ejecutar comando
+run_command() {
+    echo -e "\n\e[1;32m###########################################"
+    echo "# $1"
+    echo -e "###########################################\e[0m\n"
+    eval "$2"
+}
+
+# Comandos principales
+run_command "1. Actualizando paquetes del sistema..." "pacman -Syu --noconfirm"
+
+run_command "2. Limpiando caché de paquetes..." "yes | pacman -Sc"
+
+# Elimina paquetes huérfanos si existen
+orphans=$(pacman -Qdtq 2>/dev/null)
+if [ -n "$orphans" ]; then
+    run_command "3. Eliminando paquetes huérfanos..." "pacman -Rns --noconfirm $orphans"
+else
+    echo -e "\e[1;90mNo hay paquetes huérfanos para eliminar.\e[0m"
+fi
+
+# Snap
+if command -v snap &>/dev/null; then
+    run_command "4. Actualizando paquetes Snap..." "snap refresh"
+else
+    echo -e "\e[1;90mSnap no está instalado. Se omite.\e[0m"
+fi
+
+# Flatpak
+if command -v flatpak &>/dev/null; then
+    run_command "5. Actualizando paquetes Flatpak..." "flatpak update -y"
+else
+    echo -e "\e[1;90mFlatpak no está instalado. Se omite.\e[0m"
+fi
+
+# Finalización
+echo -e "\n\e[1;32m*******************************************************"
+echo "**** Script de Actualización y Limpieza Finalizado ****"
+echo -e "*************** $(date '+%Y-%m-%d %H:%M:%S') ***************\e[0m\n"
