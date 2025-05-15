@@ -32,7 +32,7 @@ FECHA=$(date "+%Y-%m-%d %H:%M:%S")
 # Presentación
 echo -e "\n\e[1;32m*************************************************************"
 echo "** Script para Actualización y Limpieza de Arch/Manjaro   **"
-echo "*         Autor: Daniel González     -  Fecha: $FECHA         *"
+echo "*         Autor: Daniel González     -  Fecha: $FECHA      *"
 echo "*                        Versión 1.2                       *"
 echo -e "*************************************************************\e[0m\n"
 

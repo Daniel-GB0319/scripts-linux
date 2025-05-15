@@ -53,7 +53,7 @@ clear
 # Presentación visual del script
 echo -e "\n\e[1;32m*************************************************************"
 echo "** Script para Actualización y Limpieza de la Distribución **"
-echo "*             Autor:  Daniel González   |   Ver. 2.1       *"
+echo "*             Autor:  Daniel González   |   Ver. 2.1        *"
 echo -e "*************************************************************\e[0m\n"
 
 # Muestra la hora de inicio
