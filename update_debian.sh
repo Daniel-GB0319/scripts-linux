@@ -3,99 +3,108 @@
 ######################################################################
 # Script de Actualización y Limpieza de Distribución (Debian y derivados)
 # Autor: Daniel González 
-# Versión: 2.1
-# Fecha: 14 de Mayo de 2025
+# Versión: 2.3
+# Fecha: 14 de Marzo de 2026
 #
 # Este script automatiza tareas de actualización y limpieza en una
 # distribución de Linux basada en Debian. Realiza la sincronización de paquetes,
 # actualizaciones, limpieza de archivos temporales y eliminación de
 # paquetes innecesarios.
 #
-# Uso: ./update_debian.sh
+# Uso: sudo ./update_debian.sh
 #
 # Requiere permisos de superusuario (root) para ejecutarse.
 ######################################################################
 
-
-# Activar modo estricto:
-# -e: salir si un comando falla
-# -u: fallar si se usa una variable no definida
-# -o pipefail: si un comando en un pipeline falla, todo el pipeline falla
+# Activar modo estricto
 set -euo pipefail
 
-# Verifica si el script está siendo ejecutado como superusuario
+# Verifica si script está siendo ejecutado como superusuario
 if [ "$EUID" -ne 0 ]; then
-    echo -e "\e[1;91mEste script debe ejecutarse como superusuario.\e[0m"
+    echo -e "\e[1;91m[Error] Este script debe ejecutarse como superusuario (root).\e[0m"
     exit 1
 fi
 
-# Función para mostrar un mensaje decorativo antes de ejecutar un comando
-# Si el comando falla, se notifica con un mensaje de error
+# Verifica conexión a internet haciendo ping a Google DNS
+if ! ping -c 1 8.8.8.8 &> /dev/null; then
+    echo -e "\e[1;91m[Error] No hay conexión a Internet. Abortando el script.\e[0m"
+    exit 1
+fi
+
+# Función para mostrar mensaje antes de ejecutar un comando
 run_command() {
-    local description="$1"  # Descripción amigable del comando
-    local command="$2"      # Comando real a ejecutar
+    local description="$1"  # Descripción del comando
+    local command="$2"      # Comando a ejecutar
 
     echo ""
-    echo -e "\e[1;32m###########################################"
+    echo -e "\e[1;36m###########################################"
     echo "# $description"
     echo -e "###########################################\e[0m"
-    echo ""
 
-    # Ejecuta el comando y muestra un error si falla
+    # Ejecuta el comando y muestra error si falla
     if ! eval "$command"; then
-        echo -e "\e[1;91mError ejecutando: $command\e[0m"
+        echo -e "\e[1;91m[!] Error ejecutando: $command\e[0m"
     fi
 }
 
-# Limpia la terminal antes de mostrar el menú
+# Limpia la terminal
 clear
 
-# Presentación visual del script
+# Presentación del script
 echo -e "\n\e[1;32m*************************************************************"
 echo "** Script para Actualización y Limpieza de la Distribución **"
-echo "*             Autor:  Daniel González   |   Ver. 2.1        *"
+echo "* Autor:  Daniel González   |   Ver. 2.3        *"
 echo -e "*************************************************************\e[0m\n"
 
-# Muestra la hora de inicio
+# Registra tiempo de inicio
+START_TIME=$(date +%s)
 echo -e "\e[1;93mInicio del proceso: $(date)\e[0m\n"
-sleep 2s
+sleep 2
 
-# Se define un array con los comandos a ejecutar, cada elemento tiene:
-# "Descripción del paso|Comando a ejecutar"
+# Array de comandos
 declare -a commands=(
-    "Sincronizando Repositorios...|sudo apt update"
-    "Actualizando Paquetes...|sudo apt upgrade -y"
-    "Actualizando la Distribución...|sudo apt full-upgrade -y"
+    "Sincronizando Repositorios...|apt update"
+    "Actualizando Paquetes...|apt upgrade -y"
+    "Actualizando la Distribución (Full)...|apt full-upgrade -y"
 )
 
-# Verifica si el comando 'snap' existe, y si es así, agrega su actualización
+# Verifica si 'snap' existe
 if command -v snap &> /dev/null; then
-    commands+=("Actualizando Paquetes Snap...|sudo snap refresh")
+    commands+=("Actualizando Paquetes Snap...|snap refresh")
 fi
 
-# Verifica si el comando 'flatpak' existe, y si es así, agrega su actualización
+# Verifica si 'flatpak' existe
 if command -v flatpak &> /dev/null; then
-    # El modificador '-y' fuerza la actualización sin preguntar
     commands+=("Actualizando Paquetes Flatpak...|flatpak update -y")
 fi
 
-# Agrega tareas de limpieza al array
+# Tareas de limpieza
 commands+=(
-    "Eliminando Archivos Temporales...|sudo apt autoclean -y"
-    "Eliminando Paquetes Innecesarios...|sudo apt autoremove -y"
+    "Eliminando Archivos Temporales de APT...|apt autoclean -y"
+    "Eliminando Paquetes Innecesarios y Dependencias Huérfanas...|apt autoremove -y"
 )
 
-# Recorre cada entrada del array y ejecuta los comandos
+# Recorre el array y ejecuta los comandos
 for entry in "${commands[@]}"; do
-    # Separa la descripción y el comando usando el delimitador '|'
     IFS="|" read -r description command <<< "$entry"
-
-    # Llama a la función run_command con los datos separados
     run_command "$description" "$command"
 done
 
-# Mensaje de finalización con hora
+# Calcula tiempo transcurrido
+END_TIME=$(date +%s)
+ELAPSED=$((END_TIME - START_TIME))
+MINUTES=$((ELAPSED / 60))
+SECONDS=$((ELAPSED % 60))
+
+# Mensaje de finalización
 echo -e "\n\e[1;32m*******************************************************"
-echo "**** Script de Actualización y Limpieza Finalizada ****"
+echo "**** Script de Actualización y Limpieza Finalizado ****"
 echo -e "*******************************************************\e[0m"
-echo -e "\e[1;93mFinalizado en: $(date)\e[0m\n"
+echo -e "\e[1;93mFinalizado en: $(date)\e[0m"
+echo -e "\e[1;96mTiempo total de ejecución: ${MINUTES} minuto(s) y ${SECONDS} segundo(s).\e[0m\n"
+
+# Comprueba si el sistema requiere un reinicio
+if [ -f /var/run/reboot-required ]; then
+    echo -e "\e[1;91m[ALERTA] El sistema requiere un reinicio para aplicar las nuevas actualizaciones (ej. nuevo kernel).\e[0m"
+    echo -e "\e[1;91mPor favor, ejecuta 'reboot' cuando te sea posible.\e[0m\n"
+fi
