@@ -4,7 +4,7 @@
 #   Setup Inicial para Debian 12 o superior
 #   Autor original: Daniel Gonzalez
 #   Modificado con validaciones, optimizaciones, logging y trazabilidad
-#   Ver. 2.0 - 04/Abr/2026
+#   Ver. 2.0.1 - 04/Abr/2026
 # =======================================================
 
 # 1. Verificar permisos de root
@@ -112,7 +112,7 @@ for disk in /sys/block/nvme*; do
     fi
 done
 
-for rot in /sys/block/sd*/queue/rotational 2>/dev/null; do
+for rot in /sys/block/sd*/queue/rotational; do
     if [ -f "$rot" ] && [ "$(cat "$rot")" -eq 0 ]; then
         HAS_SSD=true
     fi
